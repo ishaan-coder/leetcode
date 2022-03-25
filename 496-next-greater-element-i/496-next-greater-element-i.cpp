@@ -3,33 +3,29 @@ public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
         int n=nums1.size();
         int m=nums2.size();
-        vector<int>temp;
-            int i,j;
-            int x;
+        vector<int>temp(nums1.size(),-1);
+        int i,j;
+        stack<int>st;
+        unordered_map<int,int>mp;
+         for(i=0;i<m;i++)
+         {
+             int x=nums2[i];
+             while(!st.empty() && x>st.top())
+             {
+                 mp[st.top()]=x;
+                 st.pop();
+             }
+             st.push(x);
+         }
         for(i=0;i<n;i++)
         {
-            for(j=0;j<m;j++)
+            int x=nums1[i];
+            if(mp.find(x)!=mp.end())
             {
-                if(nums1[i]==nums2[j])
-                {
-                    cout<<j<<" ";
-                  x=j;
-                    j++;
-                    break;
-                }
+                int y=mp[x];
+                temp[i]=y;
             }
-            cout<<j<<" ";
-            int c=-1;
-            while(j<m)
-            {
-                if(nums2[j]>nums2[x])
-                {
-                    c=nums2[j];
-                    break;
-                }
-                j++;
-            }
-            temp.push_back(c);
+            
         }
         return temp;
         
