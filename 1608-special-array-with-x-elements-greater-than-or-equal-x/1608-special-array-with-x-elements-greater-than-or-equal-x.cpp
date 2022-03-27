@@ -1,27 +1,17 @@
 class Solution {
 public:
     int specialArray(vector<int>& nums) {
-        int n=nums.size();
-        int i,j;
-        int max1=0;
-        for(i=0;i<n;i++)
-        {
-            max1=max(nums[i],max1);
+       int v[102];
+        memset(v, 0, sizeof v);
+        for (const auto &n : nums) {
+            ++v[n > 100 ? 100 : n];
         }
-       int x=max1;
-        while(x>0)
-        {
-            int count=0;
-            for(i=0;i<n;i++)
-            {
-                
-                if(nums[i]>=x)
-                    count++;
-            }
-            if(x==count)
-                return x;
-            x--;
+        for (int i = 100; i > 0; --i) {
+            v[i] = v[i + 1] + v[i];
+            if (v[i] == i)
+                return i;
         }
         return -1;
+        
     }
 };
