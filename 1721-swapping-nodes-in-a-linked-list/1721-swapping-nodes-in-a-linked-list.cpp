@@ -21,20 +21,18 @@ public:
             next1=next1->next;
             x++;
         }
-        cout<<x;
         while(temp1->next!=NULL && temp1!=NULL && i!=k-1)
         {
             temp1=temp1->next;
             i++;
         }
-        cout<<i<<" ";
+
         int j=0;
         while(temp2->next!=NULL && temp2!=NULL && j!=x-k)
         {
             temp2=temp2->next;
             j++;
         }
-        cout<<j;
         swap(temp2->val,temp1->val);
         return head;
     }
