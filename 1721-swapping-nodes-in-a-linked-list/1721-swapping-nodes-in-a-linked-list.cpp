@@ -16,24 +16,20 @@ public:
         int i=0;
         int x=0;
         ListNode* next1=head;
-        while(next1!=NULL)
-        {
-            next1=next1->next;
-            x++;
-        }
-        while(temp1->next!=NULL && temp1!=NULL && i!=k-1)
+        while(k>1)
         {
             temp1=temp1->next;
-            i++;
+            k--;
         }
-
-        int j=0;
-        while(temp2->next!=NULL && temp2!=NULL && j!=x-k)
+        next1=temp1;
+        temp1=temp1->next;
+        
+        while(temp1)
         {
+            temp1=temp1->next;
             temp2=temp2->next;
-            j++;
         }
-        swap(temp2->val,temp1->val);
+        swap(temp2->val,next1->val);
         return head;
     }
 };
