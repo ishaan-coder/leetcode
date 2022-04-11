@@ -26,7 +26,6 @@ public:
             while(x--)
             {
                  TreeNode*node=q.front();
-                cout<<node->val<<" ";
                 q.pop();
                 if(node->val%2==0)
                     return false;
@@ -56,7 +55,6 @@ public:
                  while(x--)
             {
                 TreeNode* node=q.front();
-                     cout<<node->val;
                      
                      q.pop();
                 if(node->val%2!=0)
@@ -80,7 +78,6 @@ public:
             }
             }
             i++;
-            cout<<endl;
             temp=-1;
         }
         return true;
