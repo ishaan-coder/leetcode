@@ -2,23 +2,24 @@ class Solution {
 public:
     int characterReplacement(string s, int k) {
         int n=s.size();
-        int len=0;
-        int i;
+        int i=0;
         int j=0;
-        int max1=0;
+        int len=0;
         vector<int>freq(256,0);
-        for(i=0;i<n;i++)
+        int max1=0;
+        for(j=0;j<n;j++)
         {
-            freq[s[i]]++;
-            max1=max(max1,freq[s[i]]);
-            int windsize=i-j+1;
-            if(windsize-max1>k)
+            freq[s[j]]++;
+            max1=max(max1,freq[s[j]]);
+            int wind=j-i+1;
+            if(wind-max1>k)
             {
-                freq[s[j]]--;
-                j++;
+                freq[s[i]]--;
+                i++;
+
             }
-            len=max(len,i-j+1);
-            
+            wind=j-i+1;
+            len=max(wind,len);
         }
         return len;
     }
