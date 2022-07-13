@@ -13,30 +13,28 @@ class Solution{
     public:
     //Function to arrange all letters of a string in lexicographical 
     //order using Counting Sort.
-    string countSort(string arr){   
-        int count[256]={0};
-        int n=arr.size();
-        int i;
+    string countSort(string arr){
+        int n=arr.length(),i;
+        int freq[256]={0};
         for(i=0;i<n;i++)
         {
-            count[arr[i]]++;
+            freq[arr[i]]++;
         }
         for(i=1;i<256;i++)
         {
-            count[i]=count[i]+count[i-1];
+            freq[i]=freq[i]+freq[i-1];
+        }
+        char output[n];
+        for(i=n-1;i>=0;i--)
+        {
+            output[freq[arr[i]]-1]=arr[i];
+            freq[arr[i]]--;
         }
         string temp="";
-        char output[n];
-        for(i=0;arr[i];i++)
-        {
-            output[count[arr[i]]-1]=arr[i];
-            count[arr[i]]--;
-        }
-        for(i=0;arr[i];i++)
-        {
-            temp+=output[i];
-        }
+        for(i=0;i<n;i++)
+        temp+=output[i];
         return temp;
+        
     }
 };
 
