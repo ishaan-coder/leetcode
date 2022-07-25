@@ -17,7 +17,20 @@ public:
        
         int n=triangle.size();
         int m=triangle[0].size();
-         vector<vector<int>>dp(n,vector<int>(n,-1));
-      return mint(0,0,triangle,n,m,dp);
+         vector<vector<int>>dp(n,vector<int>(n,0));
+        for(int j=0;j<n;j++)
+            dp[n-1][j]=triangle[n-1][j];
+        for(int i=n-2;i>=0;i--)
+        {
+            for(int j=i;j>=0;j--)
+            {
+              
+              
+                int t1=dp[i+1][j]+triangle[i][j];
+                int t2=dp[i+1][j+1]+triangle[i][j];
+                dp[i][j]=min(t1,t2);
+            }
+        }
+        return dp[0][0];
     }
 };
