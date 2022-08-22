@@ -1,27 +1,28 @@
 class Solution {
 public:
-    void combSum(int i,vector<int>arr,int sum,vector<vector<int>>&ans,vector<int>&temp)
+    void FindWays(vector<int>&arr,int target,vector<vector<int>>&ans,int ind,int sum,vector<int>&temp)
     {
-        if(i==arr.size())
+        if(sum>target)
+            return;
+        if(ind>=arr.size())
         {
-            if(sum==0)
+            if(sum==target)
             {
                 ans.push_back(temp);
             }
             return;
         }
-        if(arr[i]<=sum)
-        {
-            temp.push_back(arr[i]);
-            combSum(i,arr,sum-arr[i],ans,temp);
-            temp.pop_back();
-        }
-        combSum(i+1,arr,sum,ans,temp);
+        sum+=arr[ind];
+        temp.push_back(arr[ind]);
+        FindWays(arr,target,ans,ind,sum,temp);
+        sum-=arr[ind];
+        temp.pop_back();
+        FindWays(arr,target,ans,ind+1,sum,temp);
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<vector<int>>ans;
+     vector<vector<int>>ans;
         vector<int>temp;
-        combSum(0,candidates,target,ans,temp);
+        FindWays(candidates,target,ans,0,0,temp);
         return ans;
     }
 };
