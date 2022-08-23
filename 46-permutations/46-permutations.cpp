@@ -1,29 +1,23 @@
 class Solution {
 public:
-    void FindWays(vector<int>&nums,vector<vector<int>>&ans,vector<int>&temp,vector<bool>&freq,int ind)
+    void FindWays(vector<vector<int>>&ans,vector<int>&nums,vector<int>&temp,int ind)
     {
-        if(temp.size()==nums.size())
+        if(ind==nums.size())
         {
-            ans.push_back(temp);
+            ans.push_back(nums);
             return;
         }
-        for(int i=0;i<nums.size();i++)
+        for(int j=ind;j<nums.size();j++)
         {
-            if(!freq[i])
-            {
-                freq[i]=true;
-                temp.push_back(nums[i]);
-                FindWays(nums,ans,temp,freq,i+1);
-                freq[i]=false;
-                temp.pop_back();
-            }
+            swap(nums[ind],nums[j]);
+                FindWays(ans,nums,temp,ind+1);
+            swap(nums[ind],nums[j]);
         }
     }
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>>ans;
         vector<int>temp;
-        vector<bool>freq(nums.size(),false);
-        FindWays(nums,ans,temp,freq,0);
+        FindWays(ans,nums,temp,0);
         return ans;
     }
 };
