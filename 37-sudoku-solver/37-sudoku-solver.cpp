@@ -1,16 +1,16 @@
 class Solution {
 public:
-    bool isSafe(int row ,int col,vector<vector<char>>&board,char k)
+    bool isValid(vector<vector<char>>&board,int row,int col, char c)
     {
-        for(int i=0;i<9;i++)
-        {
-            if(board[row][i]==k)
-                return false;
-            if(board[i][col]==k)
-                return false;
-            if(board[3*(row/3)+i/3][3*(col/3)+i%3]==k)
-                return false;
-        }
+       for(int i=0;i<9;i++)
+       {
+           if(board[row][i]==c)
+               return false;
+           if(board[i][col]==c)
+               return false;
+           if(board[3*(row/3)+i/3][3*(col/3)+i%3]==c)
+               return false;
+       }
         return true;
     }
     bool solve(vector<vector<char>>&board)
@@ -21,22 +21,24 @@ public:
             {
                 if(board[i][j]=='.')
                 {
-                    for(char k='1';k<='9';k++)
+                    for(char  c='1';c<='9';c++)
                     {
-                    if(isSafe(i,j,board,k))
-                    {
-                        board[i][j]=k;
-                        if(solve(board))
-                            return true;
-                        else
-                            board[i][j]='.';
-                    }
-                        
+                        if(isValid(board,i,j,c))
+                           {
+                               
+                               board[i][j]=c;
+                               if(solve(board)==true)
+                                   return true;
+                            else
+                               board[i][j]='.';
+                           }
+                     }
+                    
+                        return false;
                 }
-                    return false;
+            
             }
         }
-    }
         return true;
     }
     void solveSudoku(vector<vector<char>>& board) {
