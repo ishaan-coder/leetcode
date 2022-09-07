@@ -1,61 +1,41 @@
 class Solution {
 public:
-    bool isValid(int x,int y,int n,int m)
-    {
-        if(x>=0 && x<n && y>=0 && y<m)
-            return true;
-        else
-            return false;
-    }
     int orangesRotting(vector<vector<int>>& grid) {
         int n=grid.size();
         int m=grid[0].size();
         int i,j;
-        pair<int,int>d;
-        d.first=-1;
-        d.second=-1;
-        queue<pair<int,int>>q;
+        queue<pair<int,pair<int,int>>>q;
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        int tm=0;
         for(i=0;i<n;i++)
         {
             for(j=0;j<m;j++)
             {
                 if(grid[i][j]==2)
-                    q.push({i,j});
+                {q.push({0,{i,j}});
+                    vis[i][j]=1;}
             }
         }
-        int ans=-1;
         while(!q.empty())
         {
-            int x=q.size();
-            while(x--)
+            int temp=q.front().first;
+            tm=max(tm,temp);
+            int row=q.front().second.first;
+            int col=q.front().second.second;
+            q.pop();
+            vector<int>dx={-1,0,1,0};
+            vector<int>dy={0,1,0,-1};
+            for(i=0;i<4;i++)
             {
-                pair<int,int>temp=q.front();
-                  q.pop();
-                if(isValid(temp.first+1,temp.second,n,m) && grid[temp.first+1][temp.second]==1)
+                int delrow=row+dx[i];
+                int delcol=col+dy[i];
+                if( delrow>=0 && delrow<n && delcol>=0 && delcol<m && grid[delrow][delcol]==1 && vis[delrow][delcol]==0)
                 {
-                    q.push({temp.first+1,temp.second});
-                    grid[temp.first+1][temp.second]=2;
+                    q.push({temp+1,{delrow,delcol}});
+                    vis[delrow][delcol]=1;
+                    grid[delrow][delcol]=2;
                 }
-                 if(isValid(temp.first-1,temp.second,n,m) && grid[temp.first-1][temp.second]==1)
-                {
-                    q.push({temp.first-1,temp.second});
-                    grid[temp.first-1][temp.second]=2;
-                }
-                  if(isValid(temp.first,temp.second+1,n,m) && grid[temp.first][temp.second+1]==1)
-                {
-                    q.push({temp.first,temp.second+1});
-                    grid[temp.first][temp.second+1]=2;
-                }
-                 if(isValid(temp.first,temp.second-1,n,m) && grid[temp.first][temp.second-1]==1)
-                {
-                    q.push({temp.first,temp.second-1});
-                    grid[temp.first][temp.second-1]=2;
-                }
-              
-                
             }
-            ans++;
-                
         }
         for(i=0;i<n;i++)
         {
@@ -65,9 +45,7 @@ public:
                     return -1;
             }
         }
-        if(ans==-1)
-        return 0;
+        return tm;
         
-        return ans;
     }
 };
