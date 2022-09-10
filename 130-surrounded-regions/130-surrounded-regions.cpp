@@ -1,52 +1,63 @@
 class Solution {
 public:
-   void dfs(vector<vector<char>>&board,int i,int j,int m,int n)
-    {
-            if(i<0 || i>n-1||j<0||j>m-1||board[i][j]!='O')
-                return;
-        board[i][j]='V';
-        dfs(board,i+1,j,m,n);
-        dfs(board,i-1,j,m,n);
-        dfs(board,i,j+1,m,n);
-        dfs(board,i,j-1,m,n);
+    void solve(vector<vector<char>>& grid) {
+        int n=grid.size();
+        int m=grid[0].size();
+        queue<pair<int,int>>q;
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        for(int i=0;i<m;i++)
+        {
+            if(grid[0][i]=='O')
+            {
+                q.push({0,i});
+                vis[0][i]=1;
+            }
+             if(grid[n-1][i]=='O')
+            {
+                q.push({(n-1),i});
+                 vis[n-1][i]=1;
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            if(grid[i][0]=='O')
+            {
+                q.push({i,0});
+                vis[i][0]=1;
+            }
+             if(grid[i][m-1]=='O')
+            {
+                q.push({i,(m-1)});
+                 vis[i][m-1]=1;
+            }
+        }
+        while(!q.empty())
+        {
+            int row=q.front().first;
+            int col=q.front().second;
+            q.pop();
+            vector<int>dx={-1,0,0,1};
+            vector<int>dy={0,-1,1,0};
+            for(int i=0;i<4;i++)
+            {
+                int delrow=row+dx[i];
+                int delcol=col+dy[i];
+                if(delrow>=0 && delrow<n && delcol>=0 && delcol<m && vis[delrow][delcol]==0                  && grid[delrow][delcol]=='O')
+                {
+                    q.push({delrow,delcol});
+                    vis[delrow][delcol]=1;
+                }
+            }
+        }
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(vis[i][j]==0 && grid[i][j]!='X')
+                {
+                    grid[i][j]='X';
+                }
+            }
+        }
     }
-    void solve(vector<vector<char>>& board) {
-        int n=board.size();
-        int m=board[0].size();
-        int i=0,j=0;
-        for(i=0;i<m;i++)
-        {
-            if(board[0][i]=='O')
-            {
-                dfs(board,0,i,m,n);
-            }
-            if(board[n-1][i]=='O')
-                dfs(board,n-1,i,m,n);
-        }
-        for(i=0;i<n;i++)
-        {
-            if(board[i][0]=='O')
-            {
-                dfs(board,i,0,m,n);
-            }
-            if(board[i][m-1]=='O')
-            {
-                dfs(board,i,m-1,m,n);
-            }
-        }
-        for(i=0;i<n;i++)
-        {
-            for(j=0;j<m;j++)
-            {
-                if(board[i][j]=='O')
-                    board[i][j]='X';
-                if(board[i][j]=='V')
-                    board[i][j]='O';
-            }
-        }
-        
-        
-            
-    }
-
 };
