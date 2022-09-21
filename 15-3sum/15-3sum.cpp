@@ -4,39 +4,31 @@ public:
         int n=nums.size();
         sort(nums.begin(),nums.end());
         vector<vector<int>>ans;
-        int i=0,j=0,k=0;
-        for(i=0;i<n-2;i++)
+        for(int i=0;i<n-2;i++)
         {
-            if(i==0||(i>0 && nums[i]!=nums[i-1]))
+            int low=i+1;
+            int high=n-1;
+            while(low<high)
             {
-          
-                j=i+1;
-                k=n-1;
-            while(j<k)
-            {
-                if(nums[j]+nums[k]+nums[i]==0)
+                if(nums[low]+nums[high]+nums[i]==0)
                 {
-                      vector<int>temp;
-                    temp.push_back(nums[i]);
-                    temp.push_back(nums[j]);
-                    temp.push_back(nums[k]);
+                    vector<int>temp(3,0);
+                    temp[0]=nums[i];
+                    temp[1]=nums[low];
+                    temp[2]=nums[high];
                     ans.push_back(temp);
-                    
-                    while(j<k && nums[j]==nums[j+1])
-                    j++;
-                while(j<k && nums[k]==nums[k-1])
-                    k--;
-                    j++;
-                    k--;
+                    while(low<high && temp[1]==nums[low])
+                        low++;
+                    while(low<high && temp[2]==nums[high])
+                        high--;
                 }
-                
-                else if(nums[i]+nums[j]+nums[k]>0)
-                    k--;
+                else if(nums[low]+nums[high]+nums[i]>0)
+                    high--;
                 else
-                    j++;
-                }
-                    
+                    low++;
             }
+            while(i+1<n-2 && nums[i]==nums[i+1])
+                i++;
         }
         return ans;
     }
