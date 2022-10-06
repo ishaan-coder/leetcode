@@ -2,39 +2,74 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
         int n=heights.size();
-        stack<int>st;
-        int left[n];
-        int right[n];
-       
+       int left[n];
+        vector<int>right(n,0);
+        int width[n];
+        stack<pair<int,int>>st;
         for(int i=0;i<n;i++)
-        {
-            while(!st.empty() && heights[st.top()]>=heights[i])
-                st.pop();
-            if(st.empty())
-                left[i]=0;
-           else
-                left[i]=st.top()+1;
-            
-            st.push(i);
+        {   
+           
+            if(st.size()==0)
+            {
+                
+                left[i]=-1;
+            }
+            else if(st.empty()==false && st.top().first<heights[i])
+            {
+                left[i]=st.top().second;
+            }
+            else if(st.size()>0 && st.top().first>=heights[i])
+            {
+                while(st.empty()==false && st.top().first>=heights[i])
+                {
+                    st.pop();
+                }
+                if(st.size()==0)
+                    left[i]=-1;
+                else
+                    left[i]=st.top().second;
+            }
+            st.push({heights[i],i});
         }
-        while(!st.empty())
-            st.pop();
         
+       
+        stack<pair<int,int>>st2;
         for(int i=n-1;i>=0;i--)
         {
-            while(!st.empty() && heights[st.top()]>=heights[i])
-                st.pop();
-            if(st.empty())
-                right[i]=n-1;
-          else
-                right[i]=st.top()-1;
-            st.push(i);
+            
+            if(st2.size()==0)
+            {
+                right[i]=n;
+            }
+            else if(st2.empty()==false && st2.top().first<heights[i])
+            {
+                right[i]=st2.top().second;
+            }
+           else if(st2.size()>0 && st2.top().first>=heights[i])
+            {
+                while(st2.empty()==false && st2.top().first>=heights[i])
+                {
+                    st2.pop();
+                }
+                if(st2.size()==0)
+                    right[i]=n;
+                else
+                    right[i]=st2.top().second;
+            }
+            st2.push({heights[i],i});
+            // cout<<right[i];
         }
-        int max1=0;
         for(int i=0;i<n;i++)
         {
-            max1=max(max1,heights[i]*(right[i]-left[i]+1));
+            // cout<<left[i]<<right[i]<<" ";
+            width[i]=right[i]-left[i]-1;
+            // cout<<width[i];
         }
-        return max1;
+        int ans=0;
+        for(int i=0;i<n;i++)
+        {
+            ans=max(ans,width[i]*heights[i]);
+        }
+            return ans;
     }
 };
