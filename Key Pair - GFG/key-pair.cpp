@@ -11,19 +11,15 @@ public:
 	// Function to check if array has 2 elements
 	// whose sum is equal to the given value
 	bool hasArrayTwoCandidates(int arr[], int n, int x) {
-	        int left=0;
-	        int right=n-1;
-	        sort(arr,arr+n);
-	        while(left<right)
-	        {
-	            if(arr[left]+arr[right]==x)
-	            return true;
-	            else if(arr[left]+arr[right]>x)
-	            right--;
-	            else
-	            left++;
-	        }
-	        return false;
+	       set<int>st;
+	       st.insert(arr[0]);
+	       for(int i=1;i<n;i++)
+	       {
+	           if(st.find(x-arr[i])!=st.end())
+	           return true;
+	           st.insert(arr[i]);
+	       }
+	       return false;
 	}
 };
 
